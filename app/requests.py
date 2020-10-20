@@ -46,3 +46,41 @@ def process_sources(sourceLists):
         sourcesResults.append(sourceObject)
 
     return sourcesResults
+
+def get_articles(category):
+    """
+    Function that gets the json Articles response to our url request
+    """
+    get_articles_url = base_article_url.format(category,api_key)
+    get_articles_response = requests.get(get_articles_url).json()
+
+    articles_results = None
+
+    if get_articles_response['articles']:
+        articles_results_list = get_articles_response['articles']
+        articles_results = process_articles_results(articles_results_list)
+
+    return articles_results
+
+def process_articles_results(articles_list):
+    """
+    Function  that processes the articles result and transform them to a list of Objects
+
+    """
+    
+    articles_results = []
+    for article_item in articles_list:
+        id = article_item.get('id')
+        title = article_item.get('name')
+        author = article_item.get('author')
+        description = article_item.get('description')
+        url = article_item.get('url')
+        urlToImage = article_item.get('urlToImage')
+        publishedAt = article_item.get('publishedAt')
+        content = article_item.get('content')
+
+        if urlToImage and author:
+            article_object = Article(id, title, author, description, url, urlToImage, publishedAt, content)
+            articles_results.append(article_object)
+
+    return articles_results

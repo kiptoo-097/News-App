@@ -15,3 +15,34 @@ def configure_request(app):
     api_key = app.config['NEWS_API_KEY']
     source_url = app.config['API_SOURCE_URL']
     base_article_url = app.config["ARTICLES_API_BASE_URL"]
+
+def get_sources():
+    
+    getSourcesURL = source_url.format(api_key)
+
+    getSourcesResponse =requests.get(getSourcesURL).json()
+
+    sourcesResults = None 
+
+    if getSourcesResponse['sources']:
+        sourcesResultsList = getSourcesResponse['sources']
+        sourcesResults = processSources(sourcesResultsList)
+
+    return sourcesResults        
+
+def process_sources(sourceLists):
+    sourcesResults = []
+    for sourceList in sourceLists:
+        id = sourceList.get('id')
+        name = sourceList.get('name')
+        description = sourceList.get('description')
+        url = sourceList.get('url')
+        category = sourceList.get('category')
+        language = sourceList.get('language')
+        country = sourceList.get('country')
+
+        sourceObject = Source(id,name,description,url,language,category,country)
+
+        sourcesResults.append(sourceObject)
+
+    return sourcesResults

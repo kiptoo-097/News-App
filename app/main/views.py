@@ -22,7 +22,14 @@ def entertainment():
 
     return render_template('allnews.html',title = title, entertainment = entertainment)
 
+@main.route('/business/')
+def business():
+    
+    business = get_articles("business")
 
+    title = 'Business'
+
+    return render_template('business.html',title = title, business = business)
 
 
 

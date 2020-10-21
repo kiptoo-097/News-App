@@ -20,7 +20,7 @@ def entertainment():
 
     title = 'Entertainment'
 
-    return render_template('allnews.html',title = title, entertainment = entertainment)
+    return render_template('entertainment.html',title = title, entertainment = entertainment)
 
 @main.route('/business/')
 def business():
@@ -41,3 +41,13 @@ def sports():
     title = 'Sports'
 
     return render_template('sports.html',title = title, sports = sports)
+
+@main.route('/technology/')
+def technology():
+    
+    technology = get_articles("technology")
+
+    title = 'Technology'
+
+    return render_template('technology.html',title = title, technology = technology)
+

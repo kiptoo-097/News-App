@@ -1,25 +1,24 @@
-from app import app
-import urllib.requests,json
-from models import Source , Articles
+import urllib.request,json
+from .models import Source,Article
 import requests
+import os
 
-
-api_key = None
+apiKeyy = None
 source_url = None
 article_url = None
 base_url =None
 base_article_url = None
 
 def configure_request(app):
-    global api_key,source_url,article_url, base_article_url,base_url
-    api_key = app.config['NEWS_API_KEY']
-    source_url = app.config['API_SOURCE_URL']
-    base_article_url = app.config["ARTICLES_API_BASE_URL"]
+    global apiKey,source_url, base_article_url
+    apiKey = app.config['NEWS_API_KEY']
+    source_url = app.config['NEWS_API_SOURCE_URL']
+    base_article_url = app.config['ARTICLES_API_BASE_URL']
 
-def get_sources():
+
+def getSources():
     
-    getSourcesURL = source_url.format(api_key)
-
+    getSourcesURL = source_url.format(apiKey)
     getSourcesResponse =requests.get(getSourcesURL).json()
 
     sourcesResults = None 
@@ -30,7 +29,7 @@ def get_sources():
 
     return sourcesResults        
 
-def process_sources(sourceLists):
+def processSources(sourceLists):
     sourcesResults = []
     for sourceList in sourceLists:
         id = sourceList.get('id')
@@ -51,7 +50,7 @@ def get_articles(category):
     """
     Function that gets the json Articles response to our url request
     """
-    get_articles_url = base_article_url.format(category,api_key)
+    get_articles_url = base_article_url.format(category, apiKey)
     get_articles_response = requests.get(get_articles_url).json()
 
     articles_results = None

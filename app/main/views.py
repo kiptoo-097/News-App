@@ -33,3 +33,11 @@ def business():
 
 
 
+@main.route('/sports/')
+def sports():
+    
+    sports = get_articles("sports")
+
+    title = 'Sports'
+
+    return render_template('sports.html',title = title, sports = sports)
